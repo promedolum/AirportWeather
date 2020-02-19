@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B3894F223FDD88F00A292C6 /* StationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3894F123FDD88F00A292C6 /* StationModel.swift */; };
+		1B3894F423FDDA1E00A292C6 /* CodableResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3894F323FDDA1E00A292C6 /* CodableResponse.swift */; };
 		1B6244C223FDC8CC0066E53D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6244C123FDC8CC0066E53D /* AppDelegate.swift */; };
 		1B6244C423FDC8CC0066E53D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6244C323FDC8CC0066E53D /* SceneDelegate.swift */; };
 		1B6244C623FDC8CC0066E53D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6244C523FDC8CC0066E53D /* ViewController.swift */; };
@@ -14,9 +16,13 @@
 		1B6244CB23FDC8D50066E53D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B6244CA23FDC8D50066E53D /* Assets.xcassets */; };
 		1B6244CE23FDC8D50066E53D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B6244CC23FDC8D50066E53D /* LaunchScreen.storyboard */; };
 		1B6244DB23FDCB1F0066E53D /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 1B6244DA23FDCB1F0066E53D /* Moya */; };
+		1B6244DD23FDCCA10066E53D /* CheckWX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6244DC23FDCCA10066E53D /* CheckWX.swift */; };
+		1B6244DF23FDCDA50066E53D /* CheckWX.Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6244DE23FDCDA50066E53D /* CheckWX.Config.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B3894F123FDD88F00A292C6 /* StationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationModel.swift; sourceTree = "<group>"; };
+		1B3894F323FDDA1E00A292C6 /* CodableResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResponse.swift; sourceTree = "<group>"; };
 		1B6244BE23FDC8CC0066E53D /* AirportWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirportWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B6244C123FDC8CC0066E53D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B6244C323FDC8CC0066E53D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -25,6 +31,8 @@
 		1B6244CA23FDC8D50066E53D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B6244CD23FDC8D50066E53D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1B6244CF23FDC8D50066E53D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B6244DC23FDCCA10066E53D /* CheckWX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckWX.swift; sourceTree = "<group>"; };
+		1B6244DE23FDCDA50066E53D /* CheckWX.Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckWX.Config.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +90,9 @@
 		1B6244D623FDC9550066E53D /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				1B6244DC23FDCCA10066E53D /* CheckWX.swift */,
+				1B6244DE23FDCDA50066E53D /* CheckWX.Config.swift */,
+				1B3894F323FDDA1E00A292C6 /* CodableResponse.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -89,6 +100,7 @@
 		1B6244D723FDC95E0066E53D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1B3894F123FDD88F00A292C6 /* StationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -178,9 +190,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B6244DF23FDCDA50066E53D /* CheckWX.Config.swift in Sources */,
 				1B6244C623FDC8CC0066E53D /* ViewController.swift in Sources */,
+				1B6244DD23FDCCA10066E53D /* CheckWX.swift in Sources */,
 				1B6244C223FDC8CC0066E53D /* AppDelegate.swift in Sources */,
+				1B3894F223FDD88F00A292C6 /* StationModel.swift in Sources */,
 				1B6244C423FDC8CC0066E53D /* SceneDelegate.swift in Sources */,
+				1B3894F423FDDA1E00A292C6 /* CodableResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

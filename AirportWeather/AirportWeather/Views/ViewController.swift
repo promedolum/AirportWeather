@@ -7,14 +7,31 @@
 //
 
 import UIKit
+import Moya
 
 class ViewController: UIViewController {
+    
+    let provider = MoyaProvider<CheckWX>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        provider.request(.station) { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case .success(let response):
+                do {
+                    let data = try response.map(StationResults<Station>.self).data
+                    print(data)
+                } catch {
+                    print("oops")
+                }
+            case .failure:
+                print(":(")
+            }
+        }
     }
-
-
 }
 
