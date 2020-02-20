@@ -13,19 +13,53 @@ struct Station: Codable {
     let name: String
     let activated: String?
     let city: String?
-//    let country: Country?
-//    let elevation: Elevation?
+    let country: Country?
+    let elevation: Elevation?
     let iata: String?
-//    let latitude: Coordinate
-//    let longitude: Coordinate
-    //    let magneticVariation: MagneticVariation?
-    //    let radius: Radius?
-    //    let sectional: String?
-    //    let state: Country?
+    let latitude: Coordinate?
+    let longitude: Coordinate?
+    let magneticVariation: MagneticVariation?
+    let sectional: String?
+    let state: Country?
     let status: String?
-    //    let sunrise: Sunrise?
-    //    let timestamp: Timestamp?
-//    let timezone: Timezone
+    let timezone: Timezone?
     let type: String?
-    //    let useage: String?
+    let useage: String?
+}
+
+extension Station {
+    struct Country: Codable {
+        let code: String?
+        let name: String?
+    }
+}
+
+extension Station {
+    struct Elevation: Codable {
+        let feet: Float?
+        let meters: Float?
+        let method: String?
+    }
+}
+
+extension Station {
+    struct Coordinate: Codable {
+        let decimal: Float?
+        let degrees: String?
+    }
+}
+
+extension Station {
+    struct MagneticVariation: Codable {
+        let position: String?
+        let year: String?
+    }
+}
+
+extension Station {
+    struct Timezone: Codable {
+        let gmt: Int?
+        let dst: Int?
+        let tzid: String?
+    }
 }

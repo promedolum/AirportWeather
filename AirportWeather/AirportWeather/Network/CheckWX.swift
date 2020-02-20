@@ -10,7 +10,12 @@ import Foundation
 import Moya
 
 public enum CheckWX {
-    case station
+    case station,
+         stationInfo(icao: String),
+         stationsByStation(icao: String, radius: Int),
+         stationByCoordinate(lat: Double, lon: Double),
+         stationsByCoordinateRadius(lat: Double, lon: Double, radius: Int),
+         stationTimestamp(icao: String)
 }
 
 extension CheckWX: TargetType {
@@ -22,7 +27,12 @@ extension CheckWX: TargetType {
     public var path: String {
         switch self {
         case .station: return "/station/"
-    }
+        case .stationInfo(let icao): return "/station/\(icao)"
+        case .stationsByStation(let icao, let radius): return "/station/\(icao)/radius/\(radius)"
+        case .stationByCoordinate(let lat, let lon): return "/station/lat/\(lat)/lon/\(lon)"
+        case .stationsByCoordinateRadius(let lat, let lon, let radius): return "/station/lat/\(lat)/lon/\(lon)/radius/\(radius)"
+        case .stationTimestamp(let icao): return "/station/\(icao)/timestamp"
+        }
   }
 
     public var method: Moya.Method {
@@ -37,6 +47,15 @@ extension CheckWX: TargetType {
 
         switch self {
         case .station: return .requestPlain
+        case .stationInfo(icao: _): return .requestPlain
+        case .stationsByStation(let icao, let radius):
+            return .requestPlain
+        case .stationByCoordinate(let lat, let lon):
+            return .requestPlain
+        case .stationsByCoordinateRadius(let lat, let lon, let radius):
+            return .requestPlain
+        case .stationTimestamp(let icao):
+            return .requestPlain
         }
   }
 

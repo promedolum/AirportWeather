@@ -17,8 +17,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        provider.request(.station) { [weak self] result in
-            guard let self = self else { return }
+//        provider.request(.stationsByStation(icao: "uuee", radius: 30)) { [weak self] result in
+//            guard let self = self else { return }
+            provider.request(.stationInfo(icao: "kpie")) { [weak self] result in
+                guard let self = self else { return }
 
             switch result {
             case .success(let response):
