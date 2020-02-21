@@ -44,7 +44,7 @@ extension Station {
 
 extension Station {
     struct Coordinate: Codable {
-        let decimal: Float?
+        let decimal: Double?
         let degrees: String?
     }
 }
