@@ -11,7 +11,10 @@ import Moya
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController, CLLocationManagerDelegate {
+class MapViewController:    UIViewController,
+                            MKMapViewDelegate,
+                            UIGestureRecognizerDelegate,
+                            CLLocationManagerDelegate {
     
     let provider = MoyaProvider<CheckWX>()
     let locationManager = CLLocationManager()
@@ -20,10 +23,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     var userLongitude = [Double?(0.0)]
     
     let mapView = MKMapView()
+    let regionRadius: CLLocationDistance = 20000
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        locationManager.requestWhenInUseAuthorization()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.delegate = self
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -36,27 +48,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         mapView.isZoomEnabled = true
         mapView.isScrollEnabled = true
         
-        var userLocation = locationManager.location?.coordinate
+        mapView.frame = CGRect(x:0, y:0, width:view.frame.size.width, height: view.bounds.size.height)
+        
+        let mapPanGesture = UIPanGestureRecognizer(target: self, action: #selector(self.didDragMap(_:)))
+        mapPanGesture.delegate = self
+        mapView.addGestureRecognizer(mapPanGesture)
+        
+        
+        let userLocation = locationManager.location?.coordinate
         userLatitude = [userLocation?.latitude]
         userLongitude = [userLocation?.longitude]
         
         let initialLocation = CLLocation(latitude: userLatitude[0] ?? 0.0, longitude: userLongitude[0] ?? 0.0)
-        
-        let regionRadius: CLLocationDistance = 20000
-        func centerMapOnLocation(location: CLLocation) {
-            let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
-                                                      latitudinalMeters: regionRadius,
-                                                      longitudinalMeters: regionRadius)
-            mapView.setRegion(coordinateRegion, animated: true)
-        }
-        
-        mapView.frame = CGRect(x:0, y:0, width:view.frame.size.width, height: view.bounds.size.height)
 
-        //      provider.request(.stationInfo(icao: "uuee")) { [weak self] result in
-        //      provider.request(.stationsByStation(icao: "uuee", radius: 30)) { [weak self] result in
-
-        provider.request(.stationsByCoordinateRadius(lat: userLatitude[0] ?? 0.0,
-                                                     lon: userLongitude[0] ?? 0.0,
+        centerMapOnLocation(location: initialLocation)
+        fetchStationsInfo(latitude: self.userLatitude[0] ?? 0.0, longitude: self.userLongitude[0] ?? 0.0)
+        
+        view.addSubview(mapView)
+    }
+    
+    
+    func fetchStationsInfo(latitude: Double, longitude: Double) {
+        
+        provider.request(.stationsByCoordinateRadius(lat: latitude,
+                                                     lon: longitude,
                                                      radius: 50))
         { [weak self] result in
             guard let self = self else { return }
@@ -64,33 +79,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             case .success(let response):
                 do {
                     let data = try response.map(StationResults<Station>.self).data
-                    
-//                    let responseLatitude = data.map { $0.latitude?.decimal }
-//                    let responseLongitude = data.map { $0.longitude?.decimal }
-//                    let responseCoordinate = CLLocation(latitude: responseLatitude[0] ?? 0.0,
-//                                                        longitude: responseLongitude[0] ?? 0.0)
-                            
-                    centerMapOnLocation(location: CLLocation(latitude: self.userLatitude[0] ?? 0.0,
-                                                             longitude: self.userLongitude[0] ?? 0.0))
-//                            centerMapOnLocation(location: responseCoordinate)
-                    
                     self.fetchStationsOnMap(data)
-                    
                 } catch {
-                    print("oops")
+                    print("Could not parse data")
                 }
             case .failure:
-                print(":(")
+                print("Network error")
             }
         }
-        
-        view.addSubview(mapView)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        locationManager.requestWhenInUseAuthorization()
     }
     
     func fetchStationsOnMap(_ stations: [Station]) {
@@ -101,5 +97,25 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                station.latitude?.decimal ?? 0.0, longitude: station.longitude?.decimal ?? 0.0)
            mapView.addAnnotation(annotations)
          }
+    }
+    
+    func centerMapOnLocation(location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
+                                                  latitudinalMeters: regionRadius,
+                                                  longitudinalMeters: regionRadius)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    @objc func didDragMap(_ sender: UIGestureRecognizer) {
+        if sender.state == .ended {
+            mapView.removeAnnotations(mapView.annotations)
+            let center = mapView.centerCoordinate
+            fetchStationsInfo(latitude: center.latitude, longitude: center.longitude)
+            print("Drag action has ended")
+        }
     }
 }
