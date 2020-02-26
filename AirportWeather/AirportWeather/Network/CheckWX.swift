@@ -14,7 +14,7 @@ public enum CheckWX {
          stationInfo(icao: String),
          stationsByStation(icao: String, radius: Int),
          stationByCoordinate(lat: Double, lon: Double),
-         stationsByCoordinateRadius(lat: Double, lon: Double, radius: Int),
+         stationsByCoordinateRadius(lat: Double, lon: Double, radius: Double),
          stationTimestamp(icao: String)
 }
 
