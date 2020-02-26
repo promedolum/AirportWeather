@@ -98,13 +98,18 @@ class MapViewController:    UIViewController,
     
     func fetchStationsOnMap(_ stations: [Station]) {
         
+        let storedAnnotations = mapView.annotations
+        var newAnnotations: [MKAnnotation] = []
+        
         for station in stations {
             let annotations = MKPointAnnotation()
             annotations.title = station.name
             annotations.coordinate = CLLocationCoordinate2D(latitude: station.latitude?.decimal ?? 0.0,
                                                             longitude: station.longitude?.decimal ?? 0.0)
-            mapView.addAnnotation(annotations)
+            newAnnotations.append(annotations)
         }
+        mapView.addAnnotations(newAnnotations)
+        mapView.removeAnnotations(storedAnnotations)
     }
     
     func centerMapOnLocation(location: CLLocation) {
@@ -120,8 +125,6 @@ class MapViewController:    UIViewController,
     
     @objc func didDragMap(_ sender: UIGestureRecognizer) {
         if sender.state == .ended {
-            mapView.removeAnnotations(mapView.annotations)
-            
             let center = mapView.centerCoordinate
             let radius = mapView.currentRadius()
             fetchStationsInfo(latitude: center.latitude, longitude: center.longitude, radius: radius)
@@ -130,8 +133,6 @@ class MapViewController:    UIViewController,
     
     @objc func didPinchMap(_ sender: UIGestureRecognizer) {
         if sender.state == .ended {
-            mapView.removeAnnotations(mapView.annotations)
-            
             let radius = mapView.currentRadius()
             let center = mapView.centerCoordinate
             fetchStationsInfo(latitude: center.latitude, longitude: center.longitude, radius: radius)
@@ -139,6 +140,7 @@ class MapViewController:    UIViewController,
     }
     
 }
+    
 
 extension MKMapView {
 
