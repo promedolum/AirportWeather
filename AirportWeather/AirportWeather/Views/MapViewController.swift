@@ -104,6 +104,8 @@ class MapViewController:    UIViewController,
         for station in stations {
             let annotations = StationAnnotation()
             annotations.title = station.name
+            annotations.iata = station.iata
+            annotations.icao = station.icao
             annotations.coordinate = CLLocationCoordinate2D(latitude: station.latitude?.decimal ?? 0.0,
                                                             longitude: station.longitude?.decimal ?? 0.0)
             annotations.colour = station.markerTintColor
@@ -138,6 +140,18 @@ class MapViewController:    UIViewController,
         if let annotation = annotation as? StationAnnotation {
             annotationView?.markerTintColor = annotation.colour
             annotationView?.glyphText = annotation.glyph
+            annotationView?.canShowCallout = true
+            
+            let detailLabel = UILabel()
+            detailLabel.font = detailLabel.font.withSize(10)
+            detailLabel.numberOfLines = 2
+            detailLabel.text = """
+            ICAO: \(annotation.icao ?? "Unknown")
+            IATA: \(annotation.iata ?? "Unknown")
+            """
+            annotationView?.detailCalloutAccessoryView = detailLabel
+            annotationView?.calloutOffset = CGPoint(x: 0, y: 20)
+            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
         
         return annotationView

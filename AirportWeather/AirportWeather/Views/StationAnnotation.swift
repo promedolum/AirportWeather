@@ -12,12 +12,16 @@ import MapKit
 class StationAnnotation : NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var title: String?
+    var iata: String?
+    var icao: String?
     var glyph: String?
     var colour: UIColor?
 
     override init() {
         self.coordinate = CLLocationCoordinate2D()
         self.title = nil
+        self.iata = nil
+        self.icao = nil
         self.glyph = nil
         self.colour = UIColor.white
     }
@@ -28,7 +32,6 @@ class StationMarkerAnnotationView: MKMarkerAnnotationView {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         self.markerTintColor = colour
         self.glyphText = glyph
-        self.glyphImage = nil
     }
     
     var glyph: String? {
