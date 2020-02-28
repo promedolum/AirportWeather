@@ -98,16 +98,19 @@ class MapViewController:    UIViewController,
     
     func fetchStationsOnMap(_ stations: [Station]) {
         
-        let storedAnnotations = mapView.annotations
-        var newAnnotations: [MKAnnotation] = []
+        let storedAnnotations = mapView.annotations as! [StationAnnotation]
+        var newAnnotations: [StationAnnotation] = []
         
         for station in stations {
-            let annotations = MKPointAnnotation()
+            let annotations = StationAnnotation()
             annotations.title = station.name
             annotations.coordinate = CLLocationCoordinate2D(latitude: station.latitude?.decimal ?? 0.0,
                                                             longitude: station.longitude?.decimal ?? 0.0)
+            annotations.colour = station.markerTintColor
+            annotations.glyph = station.glyph
             newAnnotations.append(annotations)
         }
+        
         mapView.addAnnotations(newAnnotations)
         mapView.removeAnnotations(storedAnnotations)
     }
@@ -117,6 +120,27 @@ class MapViewController:    UIViewController,
                                                   latitudinalMeters: regionRadius,
                                                   longitudinalMeters: regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "StationAnnotation") as? MKMarkerAnnotationView
+        
+        if annotation.isKind(of: MKUserLocation.self) {
+            return nil // User location stays default
+        }
+
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "StationAnnotation")
+        } else {
+            annotationView?.annotation = annotation
+        }
+
+        if let annotation = annotation as? StationAnnotation {
+            annotationView?.markerTintColor = annotation.colour
+            annotationView?.glyphText = annotation.glyph
+        }
+        
+        return annotationView
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -141,7 +165,6 @@ class MapViewController:    UIViewController,
     
 }
     
-
 extension MKMapView {
 
     func topCenterCoordinate() -> CLLocationCoordinate2D {

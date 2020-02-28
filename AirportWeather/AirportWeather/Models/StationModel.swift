@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Station: Codable {
     let icao: String
@@ -61,5 +62,46 @@ extension Station {
         let gmt: Int?
         let dst: Int?
         let tzid: String?
+    }
+}
+
+extension Station {
+    var markerTintColor: UIColor {
+        switch type {
+        case "Airport": return .orange
+        case "Heliport": return .systemBlue
+        case "Baloonport",
+             "Gliderport",
+             "Ultralight":
+            return .systemIndigo
+        case "Airpark": return .red
+        case "Seaplane Base": return .purple
+        case "Automatic Weather Reporting System",
+             "Automatic Weather Observing System",
+             "Supplementary Aviation Weather Reporting":
+            return .cyan
+        case "Other": return .magenta
+        default: return .darkGray
+        }
+    }
+}
+
+extension Station {
+    var glyph: String {
+        switch type {
+        case "Airport": return "A"
+        case "Heliport": return "H"
+        case "Baloonport": return "B"
+        case "Airpark": return "P"
+        case "Gliderport": return "G"
+        case "Ultralight": return "L"
+        case "Seaplane Base": return "S"
+        case "Automatic Weather Reporting System",
+             "Automatic Weather Observing System",
+             "Supplementary Aviation Weather Reporting":
+            return "W"
+        case "Other": return "O"
+        default: return "?"
+        }
     }
 }
