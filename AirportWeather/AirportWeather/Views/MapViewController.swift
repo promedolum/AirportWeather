@@ -34,7 +34,6 @@ class MapViewController:    UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         mapView.delegate = self
         
         if CLLocationManager.locationServicesEnabled() {
@@ -178,9 +177,8 @@ class MapViewController:    UIViewController,
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let ac = UIAlertController(title: "title", message: "message", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
+        let vc2 = UITableViewController()
+        present(vc2, animated: true)
     }
 }
     
