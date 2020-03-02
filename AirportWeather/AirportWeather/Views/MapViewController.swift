@@ -124,39 +124,6 @@ class MapViewController:    UIViewController,
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "StationAnnotation") as? MKMarkerAnnotationView
-        
-        if annotation.isKind(of: MKUserLocation.self) {
-            return nil // User location stays default
-        }
-
-        if annotationView == nil {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "StationAnnotation")
-        } else {
-            annotationView?.annotation = annotation
-        }
-
-        if let annotation = annotation as? StationAnnotation {
-            annotationView?.markerTintColor = annotation.colour
-            annotationView?.glyphText = annotation.glyph
-            annotationView?.canShowCallout = true
-            
-            let detailLabel = UILabel()
-            detailLabel.font = detailLabel.font.withSize(10)
-            detailLabel.numberOfLines = 2
-            detailLabel.text = """
-            ICAO: \(annotation.icao ?? "Unknown")
-            IATA: \(annotation.iata ?? "Unknown")
-            """
-            annotationView?.detailCalloutAccessoryView = detailLabel
-            annotationView?.calloutOffset = CGPoint(x: 0, y: 20)
-            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        }
-        
-        return annotationView
-    }
-    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
@@ -177,6 +144,44 @@ class MapViewController:    UIViewController,
         }
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "StationAnnotation") as? MKMarkerAnnotationView
+        
+        if annotation.isKind(of: MKUserLocation.self) {
+            return nil // User location stays default
+        }
+
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "StationAnnotation")
+        } else {
+            annotationView?.annotation = annotation
+        }
+
+        if let annotation = annotation as? StationAnnotation {
+            annotationView?.markerTintColor = annotation.colour
+            annotationView?.glyphText = annotation.glyph
+            annotationView?.canShowCallout = true
+            annotationView?.titleVisibility = .hidden
+            
+            let detailLabel = UILabel()
+            detailLabel.font = detailLabel.font.withSize(10)
+            detailLabel.numberOfLines = 2
+            detailLabel.text = """
+            ICAO: \(annotation.icao ?? "Unknown")
+            IATA: \(annotation.iata ?? "Unknown")
+            """
+            annotationView?.detailCalloutAccessoryView = detailLabel
+            annotationView?.calloutOffset = CGPoint(x: 0, y: 20)
+            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let ac = UIAlertController(title: "title", message: "message", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
 }
     
 extension MKMapView {
