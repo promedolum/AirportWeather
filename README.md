@@ -1,4 +1,4 @@
-# AirportWeather]
+# AirportWeather
 
 **CheckWX** (https://www.checkwx.com/) is resource with agregated aiport weather reports.
 This project is the mobile version of https://www.checkwx.com/ where you can find basic information about airports (and other similar facilities) and get their weather reports. 
