@@ -25,6 +25,8 @@ class MapViewController:    UIViewController,
     let mapView = MKMapView()
     let regionRadius: CLLocationDistance = 20000
     
+    var selectedStation: Station?
+    var fetchedStations: [Int:Station] = [:]
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -100,7 +102,9 @@ class MapViewController:    UIViewController,
         let storedAnnotations = mapView.annotations as! [StationAnnotation]
         var newAnnotations: [StationAnnotation] = []
         
-        for station in stations {
+        fetchedStations.removeAll()
+        
+        for (index, station) in stations.enumerated() {
             let annotations = StationAnnotation()
             annotations.title = station.name
             annotations.iata = station.iata
@@ -109,6 +113,9 @@ class MapViewController:    UIViewController,
                                                             longitude: station.longitude?.decimal ?? 0.0)
             annotations.colour = station.markerTintColor
             annotations.glyph = station.glyph
+            annotations.index = index
+            
+            fetchedStations[index] = station
             newAnnotations.append(annotations)
         }
         
@@ -174,6 +181,12 @@ class MapViewController:    UIViewController,
             annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let selectedAnnotation = view.annotation as? StationAnnotation
+        selectedStation = fetchedStations[(selectedAnnotation?.index)!]
+        print(selectedStation)
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {

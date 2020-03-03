@@ -16,6 +16,7 @@ class StationAnnotation : NSObject, MKAnnotation {
     var icao: String?
     var glyph: String?
     var colour: UIColor?
+    var index: Int?
 
     override init() {
         self.coordinate = CLLocationCoordinate2D()
@@ -24,6 +25,7 @@ class StationAnnotation : NSObject, MKAnnotation {
         self.icao = nil
         self.glyph = nil
         self.colour = UIColor.white
+        self.index = nil
     }
 }
 
