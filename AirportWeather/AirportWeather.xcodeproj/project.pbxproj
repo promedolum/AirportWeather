@@ -18,6 +18,8 @@
 		1B6244DB23FDCB1F0066E53D /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 1B6244DA23FDCB1F0066E53D /* Moya */; };
 		1B6244DD23FDCCA10066E53D /* CheckWX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6244DC23FDCCA10066E53D /* CheckWX.swift */; };
 		1B6244DF23FDCDA50066E53D /* CheckWX.Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6244DE23FDCDA50066E53D /* CheckWX.Config.swift */; };
+		1B6707602414F78E007173D5 /* StationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B67075F2414F78E007173D5 /* StationTableViewController.swift */; };
+		1B6707622418219F007173D5 /* StationInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6707612418219F007173D5 /* StationInfoTableViewCell.swift */; };
 		E140A1DD2409540F00E434A4 /* StationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E140A1DC2409540F00E434A4 /* StationAnnotation.swift */; };
 		E183BE2A23FFE3F9008B47A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E183BE2923FFE3F9008B47A6 /* MapKit.framework */; };
 /* End PBXBuildFile section */
@@ -35,6 +37,8 @@
 		1B6244CF23FDC8D50066E53D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B6244DC23FDCCA10066E53D /* CheckWX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckWX.swift; sourceTree = "<group>"; };
 		1B6244DE23FDCDA50066E53D /* CheckWX.Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckWX.Config.swift; sourceTree = "<group>"; };
+		1B67075F2414F78E007173D5 /* StationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewController.swift; sourceTree = "<group>"; };
+		1B6707612418219F007173D5 /* StationInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoTableViewCell.swift; sourceTree = "<group>"; };
 		E140A1DC2409540F00E434A4 /* StationAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAnnotation.swift; sourceTree = "<group>"; };
 		E183BE2923FFE3F9008B47A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -115,6 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				1B6244C523FDC8CC0066E53D /* MapViewController.swift */,
+				1B67075F2414F78E007173D5 /* StationTableViewController.swift */,
+				1B6707612418219F007173D5 /* StationInfoTableViewCell.swift */,
 				E140A1DC2409540F00E434A4 /* StationAnnotation.swift */,
 			);
 			path = Views;
@@ -205,11 +211,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B6707622418219F007173D5 /* StationInfoTableViewCell.swift in Sources */,
 				1B6244DF23FDCDA50066E53D /* CheckWX.Config.swift in Sources */,
 				1B6244C623FDC8CC0066E53D /* MapViewController.swift in Sources */,
 				1B6244DD23FDCCA10066E53D /* CheckWX.swift in Sources */,
 				1B6244C223FDC8CC0066E53D /* AppDelegate.swift in Sources */,
 				1B3894F223FDD88F00A292C6 /* StationModel.swift in Sources */,
+				1B6707602414F78E007173D5 /* StationTableViewController.swift in Sources */,
 				1B6244C423FDC8CC0066E53D /* SceneDelegate.swift in Sources */,
 				1B3894F423FDDA1E00A292C6 /* CodableResponse.swift in Sources */,
 				E140A1DD2409540F00E434A4 /* StationAnnotation.swift in Sources */,
