@@ -186,12 +186,14 @@ class MapViewController:    UIViewController,
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let selectedAnnotation = view.annotation as? StationAnnotation
         selectedStation = fetchedStations[(selectedAnnotation?.index)!]
-        print(selectedStation)
+//        print(selectedStation)
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let vc2 = UITableViewController()
+        
+        let vc2 = StationTableViewController(data: selectedStation!)
         present(vc2, animated: true)
+
     }
 }
     
