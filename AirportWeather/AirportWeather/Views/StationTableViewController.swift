@@ -11,13 +11,13 @@ import UIKit
 class StationTableViewController: UITableViewController {
     
     let data: Station
-    var cellsLabel: [String]
-    var cellsDesc: [String]
+    var cellsLabels: [String]
+    var cellsDescriptions: [String]
     
     internal init(data: Station) {
         self.data = data
-        self.cellsLabel = [""]
-        self.cellsDesc = [""]
+        self.cellsLabels = []
+        self.cellsDescriptions = []
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,14 +28,9 @@ class StationTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let shit = prepareTitleArray(data: data)
-        for (key,value) in shit {
-            cellsLabel.append(key)
-            cellsDesc.append(value)
-           
-//            print(value)
-//            cellsDesc.append(value(forKey: <#T##String#>))
-        }
+        let stationInfoArrays = prepareInfoArrays(data: data)
+        cellsLabels = stationInfoArrays.titles
+        cellsDescriptions = stationInfoArrays.values
     }
 
     override func viewDidLoad() {
@@ -63,37 +58,99 @@ class StationTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return cellsLabel.count
+        return cellsLabels.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! StationInfoTableViewCell
 
-        
-        cell.textLabel?.text = cellsLabel[indexPath.item]
-        cell.detailTextLabel?.text = cellsDesc[indexPath.item]
+        cell.textLabel?.text = cellsLabels[indexPath.item]
+        cell.detailTextLabel?.text = cellsDescriptions[indexPath.item]
         cell.imageView?.image = nil
 
         return cell
         
     }
     
-    func prepareTitleArray(data: Station) -> [String:String] {
-        var titles = ["":""]
-        let mirror = Mirror(reflecting: data)
-        for each in mirror.children {
-            
-            if each.value as? String ?? "" != "nil" {
-                titles.updateValue(each.value as? String ?? "", forKey: each.label!)
-            }
-            
-            
-            
-//            print("key: \(String(describing: each.label)), value: \(each.value)")
+    func prepareInfoArrays(data: Station) -> (titles: [String], values: [String]) {
+        
+        var titles: [String] = []
+        var values: [String] = []
+        
+        titles.append("Name")
+        values.append(data.name)
+        
+        titles.append("ICAO")
+        values.append(data.icao)
+        
+        if let iata = data.iata {
+            titles.append("IATA")
+            values.append(iata)
         }
         
-        return titles
+        if let type = data.type {
+            titles.append("Type")
+            values.append(type)
+        }
+        
+        if let useage = data.useage {
+            titles.append("Useage")
+            values.append(useage)
+        }
+        
+        if let status = data.status {
+            titles.append("Status")
+            values.append(status)
+        }
+        
+        if let country = data.country {
+            if let code = country.name {
+                titles.append("Country")
+                values.append(code)
+            }
+        }
+        
+        if let state = data.state {
+            if let code = state.code {
+                titles.append("State")
+                values.append(code)
+            }
+        }
+        
+        if let city = data.city {
+            titles.append("City")
+            values.append(city)
+        }
+        
+        if let latitude = data.latitude {
+            if let decimal = latitude.decimal {
+                titles.append("Latitude")
+                values.append(String(decimal))
+            }
+        }
+        
+        if let longitude = data.longitude {
+            if let decimal = longitude.decimal {
+                titles.append("Longitute")
+                values.append(String(decimal))
+            }
+        }
+        
+        if let elevation = data.elevation {
+            let meters = NSString(format: "%.3f", elevation.meters!) as String
+            titles.append("Elevation (meters)")
+            values.append(meters)
+        }
+        
+        if let timezone = data.timezone {
+            if let gmt = timezone.gmt {
+                titles.append("Timezone (GMT)")
+                values.append(String(gmt))
+            }
+        }
+        
+        return (titles, values)
     }
     
 
